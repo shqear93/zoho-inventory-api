@@ -22,6 +22,34 @@ class ZohoClient
         }
     }
 
+    /**
+     * @param integer $item_id leave empty to list all items
+     * @return mixed
+     */
+    public function getItem($item_id = null)
+    {
+        return $this->curlRequest("/items/{$item_id}");
+    }
+
+    /**
+     * @param $search_text
+     * @return mixed
+     */
+    public function searchItem($search_text)
+    {
+        return $this->getItems(['search_text' => $search_text]);
+    }
+
+    /**
+     * List all items
+     * @param null $filter
+     * @return mixed
+     */
+    public function getItems($filter = null)
+    {
+        return $this->curlRequest("/items/", 'GET', $filter);
+    }
+
     public function getOrganizationsInfo()
     {
         return $this->curlRequest('/organizations');
@@ -34,21 +62,28 @@ class ZohoClient
 
     public function createItem($params)
     {
-        /*$orgId = $this->organizationId;
-        if (is_null($orgId)) {
-            if (isset($params['organization_id'])) {
-                $orgId = $params['organization_id'];
-            } else {
-                throw new \Exception('no default value for organization_id, please pass the value with parameters or set the default value');
-            }
-        }*/
         return $this->curlRequest('/items', 'POST', ['JSONString' => json_encode($params)]);
+    }
+
+    public function updateItem($item_id, $updates)
+    {
+        return $this->curlRequest("/items/{$item_id}", 'PUT', ['JSONString' => json_encode($updates)]);
+    }
+
+    public function deletePurchaseOrder($purchaseorder_id)
+    {
+        return $this->curlRequest("/purchaseorders/{$purchaseorder_id}", 'DELETE');
     }
 
     public function createPurchaseOrder($params, $ignore = false)
     {
         return $this->curlRequest('/purchaseorders?ignore_auto_number_generation=' . ($ignore ? 'true' : 'false'),
             'POST', ['JSONString' => json_encode($params)]);
+    }
+
+    public function getPurchaseOrder($purchaseorder_id)
+    {
+        return $this->curlRequest("/purchaseorders/{$purchaseorder_id}");
     }
 
     private function curlRequest($alias, $method = 'GET', $params = [])
@@ -59,6 +94,7 @@ class ZohoClient
             curl_setopt($this->_curlObject, CURLOPT_POST, true);
             curl_setopt($this->_curlObject, CURLOPT_POSTFIELDS, $this->getParamsArray($params));
         } else {
+            curl_setopt($this->_curlObject, CURLOPT_CUSTOMREQUEST, $method);
             curl_setopt($this->_curlObject, CURLOPT_URL, $this->getUrlPath($alias, $this->getParamsArray($params)));
         }
         return $this->execute();
