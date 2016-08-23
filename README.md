@@ -1,6 +1,6 @@
 ZOHO Inventory API
 ==================
-Client library for ZOHO Inventory API
+Unofficial ZOHO Inventory API Client library for PHP
 
 Installation
 ------------
