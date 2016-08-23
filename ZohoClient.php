@@ -6,9 +6,6 @@ class ZohoClient
     public $organizationId;
     public $accessToken;
 
-    public $lastErrorNo;
-    public $lastErrorText;
-    public $lastErrorType;
     const ERROR_TYPE_CURL = 'cUrl';
     const ERROR_TYPE_ZOHO = 'zoho';
 
@@ -120,20 +117,16 @@ class ZohoClient
     {
         $return = curl_exec($this->_curlObject);
         if (curl_errno($this->_curlObject)) {
-            $this->lastErrorType = static::ERROR_TYPE_CURL;
-            $this->lastErrorNo = curl_errno($this->_curlObject);
-            $this->lastErrorText = curl_error($this->_curlObject);
-            throw new \Exception("cUrl Error ({$this->lastErrorNo}) : {$this->lastErrorText}.");
+            $errorNo = curl_errno($this->_curlObject);
+            $errorText = curl_error($this->_curlObject);
+            throw new \Exception("cUrl Error ({$errorNo}) : {$errorText}.");
         }
         curl_close($this->_curlObject);
         $return = json_decode($return);
         if ($return->code == 0) {
             return $return;
         } else {
-            $this->lastErrorType = static::ERROR_TYPE_ZOHO;
-            $this->lastErrorNo = $return->code;
-            $this->lastErrorText = $return->message;
-            throw new \Exception("Zoho Error ({$this->lastErrorNo}) : {$this->lastErrorText}.");
+            throw new \Exception("Zoho Error ({$return->code}) : {$return->message}.");
         }
     }
 
