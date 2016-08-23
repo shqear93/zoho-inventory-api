@@ -9,6 +9,14 @@ class ZohoClient
     const ERROR_TYPE_CURL = 'cUrl';
     const ERROR_TYPE_ZOHO = 'zoho';
 
+    const SCOPE_PURCHASEORDERS = 'purchaseorders';
+    const SCOPE_SALESORDERS = 'salesorders';
+    const SCOPE_ITEMGROUP = 'itemgroup';
+    const SCOPE_INVOICES = 'invoices';
+    const SCOPE_CONTACTS = 'contacts';
+    const SCOPE_ITEMS = 'items';
+    const SCOPE_BILLS = 'bills';
+
     private $_baseUrl = 'https://inventory.zoho.com/api/v1';
     private $_curlObject;
 
@@ -16,6 +24,16 @@ class ZohoClient
     {
         foreach ($config as $property => $value) {
             $this->{$property} = $value;
+        }
+    }
+
+    public function setSettings($scope, $params, $returnJson = false)
+    {
+        $return = $this->curlRequest("/settings/$scope/", ['JSONString' => json_encode($params)]);
+        if ($returnJson) {
+            return $return;
+        } else {
+            return $return->code == 0;
         }
     }
 
