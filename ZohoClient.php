@@ -17,7 +17,7 @@ class ZohoClient
     const SCOPE_ITEMS = 'items';
     const SCOPE_BILLS = 'bills';
 
-    private $_baseUrl = 'https://inventory.zoho.com/api/v1';
+    private $_baseUrl = 'inventory.zoho.com/api/v1';
     private $_curlObject;
 
     public function __construct(array $config = [])
@@ -29,7 +29,7 @@ class ZohoClient
 
     public function setSettings($scope, $params, $returnJson = false)
     {
-        $return = $this->curlRequest("/settings/$scope/", ['JSONString' => json_encode($params)]);
+        $return = $this->curlRequest("/settings/$scope/", 'PUT', ['JSONString' => json_encode($params)]);
         if ($returnJson) {
             return $return;
         } else {
@@ -92,8 +92,11 @@ class ZohoClient
 
     public function createPurchaseOrder($params, $ignore = false)
     {
-        return $this->curlRequest('/purchaseorders?ignore_auto_number_generation=' . ($ignore ? 'true' : 'false'),
-            'POST', ['JSONString' => json_encode($params)]);
+        return $this->curlRequest(
+            '/purchaseorders', 'POST',
+            ['JSONString' => json_encode($params)],
+            ['ignore_auto_number_generation' => $ignore ? 'true' : 'false']
+        );
     }
 
     public function getPurchaseOrder($purchaseorder_id)
@@ -101,27 +104,21 @@ class ZohoClient
         return $this->curlRequest("/purchaseorders/{$purchaseorder_id}");
     }
 
-    private function curlRequest($alias, $method = 'GET', $params = [])
+    private function curlRequest($alias, $method = 'GET', array $params = [], array $urlParams = [])
     {
         $this->_curlObject = $this->initializeCurlObject();
         if ($method == 'POST') {
-            curl_setopt($this->_curlObject, CURLOPT_URL, $this->getUrlPath($alias));
             curl_setopt($this->_curlObject, CURLOPT_POST, true);
-            curl_setopt($this->_curlObject, CURLOPT_POSTFIELDS, $this->getParamsArray($params));
         } else {
             curl_setopt($this->_curlObject, CURLOPT_CUSTOMREQUEST, $method);
-            curl_setopt($this->_curlObject, CURLOPT_URL, $this->getUrlPath($alias, $this->getParamsArray($params)));
+        }
+        if ($method == 'GET') {
+            curl_setopt($this->_curlObject, CURLOPT_URL, $this->getUrlPath($alias, $params));
+        } else {
+            curl_setopt($this->_curlObject, CURLOPT_URL, $this->getUrlPath($alias, $urlParams));
+            curl_setopt($this->_curlObject, CURLOPT_POSTFIELDS, $params);
         }
         return $this->execute();
-    }
-
-    private function getUrlPath($alias, $params = [])
-    {
-        if (!empty($params)) {
-            return str_ireplace('/+', '/', "{$this->_baseUrl}{$alias}?") . http_build_query($params);
-        } else {
-            return str_ireplace('/+', '/', "{$this->_baseUrl}{$alias}");
-        }
     }
 
     private function initializeCurlObject()
@@ -148,13 +145,18 @@ class ZohoClient
         }
     }
 
+    private function getUrlPath($alias, $params = [])
+    {
+        return 'https://' . preg_replace('/\/+/', '/', "{$this->_baseUrl}/{$alias}") . '?'
+        . http_build_query(array_merge($this->getAuthParams(), $params ?: []));
+    }
+
     /**
-     * @param array $params
      * @return array
      */
-    public function getParamsArray(array $params)
+    public function getAuthParams()
     {
-        return array_merge(['authtoken' => $this->accessToken], $params ?: []);
+        return array_merge(['authtoken' => $this->accessToken, 'organization_id' => $this->organizationId]);
     }
 
     /**
@@ -163,6 +165,6 @@ class ZohoClient
      */
     public function getParamsQuery(array $params)
     {
-        return http_build_query($this->getParamsArray($params));
+        return http_build_query($params);
     }
 }
