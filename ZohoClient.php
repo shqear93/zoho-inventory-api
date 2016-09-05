@@ -68,36 +68,7 @@ class ZohoClient
         return $this->curlRequest("/settings/$scope/", 'PUT', ['JSONString' => json_encode($params)]);
     }
 
-    /**
-     * @param string $item_id to retrieve, leave empty to list all items
-     * @return \stdClass
-     * @see https://www.zoho.com/inventory/api/v1/#retrieve-a-item
-     */
-    public function retrieveItem($item_id = null)
-    {
-        return $this->curlRequest("/items/{$item_id}");
-    }
-
-    /**
-     * an extra function allows you to search items by text portion
-     * @param string $search_text
-     * @return \stdClass
-     */
-    public function searchItem($search_text)
-    {
-        return $this->listItems(['search_text' => $search_text]);
-    }
-
-    /**
-     * List all items
-     * @param array $filters an extra option allows you to filter items by specific fields, leave empty to list all items
-     * @return \stdClass
-     * @see https://www.zoho.com/inventory/api/v1/#list-all-item
-     */
-    public function listItems(array $filters = [])
-    {
-        return $this->curlRequest("/items/", 'GET', $filters);
-    }
+    //************************************** Item *********************************************
 
     /**
      * @param array $params array of properties for the new item
@@ -118,6 +89,37 @@ class ZohoClient
     public function updateItem($item_id, $params)
     {
         return $this->curlRequest("/items/{$item_id}", 'PUT', ['JSONString' => json_encode($params)]);
+    }
+
+    /**
+     * @param string $item_id to retrieve, leave empty to list all items
+     * @return \stdClass
+     * @see https://www.zoho.com/inventory/api/v1/#retrieve-a-item
+     */
+    public function retrieveItem($item_id = null)
+    {
+        return $this->curlRequest("/items/{$item_id}");
+    }
+
+    /**
+     * List all items
+     * @param array $filters an extra option allows you to filter items by specific fields, leave empty to list all items
+     * @return \stdClass
+     * @see https://www.zoho.com/inventory/api/v1/#list-all-item
+     */
+    public function listItems(array $filters = [])
+    {
+        return $this->curlRequest("/items/", 'GET', $filters);
+    }
+
+    /**
+     * an extra function allows you to search items by text portion
+     * @param string $search_text
+     * @return \stdClass
+     */
+    public function searchItem($search_text)
+    {
+        return $this->listItems(['search_text' => $search_text]);
     }
 
     /**
@@ -163,6 +165,8 @@ class ZohoClient
     {
         return $this->curlRequest("/items/{$item_id}/inactive", 'POST');
     }
+
+    //************************************** Item Group *********************************************
 
     /**
      * Create a item group
@@ -240,6 +244,8 @@ class ZohoClient
     {
         return $this->curlRequest("/itemgroups/{$group_id}/inactive", 'POST');
     }
+
+    //************************************** Purchase Order *********************************************
 
     /**
      * Create a purchase order
@@ -327,6 +333,84 @@ class ZohoClient
         return $this->curlRequest("/purchaseorders/{$purchaseorder_id}/status/cancelled", 'POST');
     }
 
+    //************************************** Sales Order *********************************************
+
+    /**
+     * Create a sales order
+     * @param array $params
+     * @param bool $ignore ignore auto number generation, if true you must specify the new id, default is false
+     * @return \stdClass
+     * @see https://www.zoho.com/inventory/api/v1/#create-a-sales-order
+     */
+    public function createSalesOrder(array $params = [], $ignore = false)
+    {
+        return $this->curlRequest('/salesorders', 'POST',
+            ['JSONString' => json_encode($params)],
+            ['ignore_auto_number_generation' => $ignore ? 'true' : 'false']
+        );
+    }
+
+    /**
+     * Update details of an existing sales order
+     * @param string $salesorder_id to update
+     * @param array $params
+     * @param bool $ignore ignore auto number generation, if true you must specify the new id, default is false
+     * @return \stdClass
+     * @see https://www.zoho.com/inventory/api/v1/#update-an-sales-order
+     */
+    public function updateSalesOrder($salesorder_id, array $params, $ignore = false)
+    {
+        return $this->curlRequest("/salesorders/{$salesorder_id}", 'PUT',
+            ['JSONString' => json_encode($params)],
+            ['ignore_auto_number_generation' => $ignore ? 'true' : 'false']
+        );
+    }
+
+    /**
+     * Retrieve a sales order
+     * @param string $salesorder_id to retrieve, leave empty to list all purchase orders
+     * @return \stdClass
+     * @see https://www.zoho.com/inventory/api/v1/#retrieve-a-sales-order
+     */
+    public function retrieveSalesOrder($salesorder_id = null)
+    {
+        return $this->curlRequest("/salesorders/{$salesorder_id}");
+    }
+
+    /**
+     * List all sales order
+     * @return \stdClass
+     * @see https://www.zoho.com/inventory/api/v1/#list-all-sales-order
+     */
+    public function listSalesOrders()
+    {
+        return $this->retrieveSalesOrder();
+    }
+
+    /**
+     * Delete an sales order
+     * @param string $salesorder_id to be deleted
+     * @return \stdClass
+     * @see https://www.zoho.com/inventory/api/v1/#delete-an-sales-order
+     */
+    public function deleteSalesOrder($salesorder_id)
+    {
+        return $this->curlRequest("/salesorders/{$salesorder_id}", 'DELETE');
+    }
+
+    /**
+     * Mark as void
+     * @param string $salesorder_id
+     * @return \stdClass
+     * @see https://www.zoho.com/inventory/api/v1/#mark-as-void68
+     */
+    public function voidSalesOrder($salesorder_id)
+    {
+        return $this->curlRequest("/salesorders/{$salesorder_id}/status/void", 'POST');
+    }
+
+    //************************************** Contacts *********************************************
+
     /**
      * @param array $params
      * @return \stdClass
@@ -341,7 +425,7 @@ class ZohoClient
      * @param string $contact_id contact id to update
      * @param array $params
      * @return \stdClass
-     * @see https://www.zoho.com/inventory/api/v1/#update-a-contact
+     * @see https://www.zoho.com/inventory/api/v1/#update-an-contact
      */
     public function updateContact($contact_id, array $params = [])
     {
@@ -382,7 +466,7 @@ class ZohoClient
     /**
      * @param string $contact_id contact id to active
      * @return \stdClass
-     * @see https://www.zoho.com/inventory/api/v1/#delete-an-contact
+     * @see https://www.zoho.com/inventory/api/v1/#mark-as-active
      */
     public function activeContact($contact_id)
     {
@@ -392,12 +476,14 @@ class ZohoClient
     /**
      * @param string $contact_id contact id to inactive
      * @return \stdClass
-     * @see https://www.zoho.com/inventory/api/v1/#delete-an-contact
+     * @see https://www.zoho.com/inventory/api/v1/#mark-as-inactive
      */
     public function inactiveContact($contact_id)
     {
         return $this->curlRequest("/contacts/{$contact_id}/inactive", 'POST');
     }
+
+    //************************************** Others *********************************************
 
     /**
      * Retrieves the array of authentication configs
