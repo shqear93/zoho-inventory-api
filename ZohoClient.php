@@ -52,7 +52,7 @@ class ZohoClient
      * @return \stdClass list of organization's properties
      * @see https://www.zoho.com/inventory/api/v1/#organization-id
      */
-    public function getOrganizationsInfo()
+    public function retrieveOrganizationsInfo()
     {
         return $this->curlRequest('/organizations');
     }
@@ -73,7 +73,7 @@ class ZohoClient
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#retrieve-a-item
      */
-    public function getItem($item_id = null)
+    public function retrieveItem($item_id = null)
     {
         return $this->curlRequest("/items/{$item_id}");
     }
@@ -85,7 +85,7 @@ class ZohoClient
      */
     public function searchItem($search_text)
     {
-        return $this->getItems(['search_text' => $search_text]);
+        return $this->listItems(['search_text' => $search_text]);
     }
 
     /**
@@ -94,7 +94,7 @@ class ZohoClient
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#list-all-item
      */
-    public function getItems(array $filters = [])
+    public function listItems(array $filters = [])
     {
         return $this->curlRequest("/items/", 'GET', $filters);
     }
@@ -193,7 +193,7 @@ class ZohoClient
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#retrieve-a-item-group
      */
-    public function getItemGroup($group_id = null)
+    public function retrieveItemGroup($group_id = null)
     {
         return $this->curlRequest("/itemgroups/{$group_id}");
     }
@@ -203,9 +203,9 @@ class ZohoClient
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#list-all-item-group
      */
-    public function getItemGroups()
+    public function listItemGroups()
     {
-        return $this->getItemGroup();
+        return $this->retrieveItemGroup();
     }
 
     /**
@@ -278,7 +278,7 @@ class ZohoClient
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#retrieve-a-purchase-order
      */
-    public function getPurchaseOrder($purchaseorder_id = null)
+    public function retrievePurchaseOrder($purchaseorder_id = null)
     {
         return $this->curlRequest("/purchaseorders/{$purchaseorder_id}");
     }
@@ -288,9 +288,9 @@ class ZohoClient
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#retrieve-a-purchase-order
      */
-    public function getPurchaseOrders()
+    public function listPurchaseOrders()
     {
-        return $this->getPurchaseOrder();
+        return $this->retrievePurchaseOrder();
     }
 
     /**
@@ -354,7 +354,7 @@ class ZohoClient
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#retrieve-a-contact
      */
-    public function getContact($contact_id = null, array $filters = [])
+    public function retrieveContact($contact_id = null, array $filters = [])
     {
         return $this->curlRequest("/contacts/{$contact_id}", 'GET', $filters);
     }
@@ -364,7 +364,7 @@ class ZohoClient
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#list-all-contact
      */
-    public function getContacts(array $filters = [])
+    public function listContacts(array $filters = [])
     {
         return $this->curlRequest("/contacts", 'GET', $filters);
     }
