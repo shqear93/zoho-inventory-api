@@ -1,8 +1,6 @@
 <?php
 namespace shqear\lib;
 
-use yii\base\Exception;
-
 class ZohoClient
 {
     public $organizationId;
@@ -36,12 +34,12 @@ class ZohoClient
     /**
      * ZohoClient constructor.
      * @param array $config accessToken is must, organizationId is optional in case only one organization
-     * @throws Exception
+     * @throws \Exception
      */
     public function __construct(array $config = [])
     {
         if (!isset($config['accessToken'])) {
-            throw new Exception('You have to set \'accessToken\' to use zoho client');
+            throw new \Exception('You have to set \'accessToken\' to use zoho client');
         }
         foreach ($config as $property => $value) {
             $this->{$property} = $value;
@@ -499,7 +497,7 @@ class ZohoClient
     private function getUrlPath($alias, $params = [])
     {
         return 'https://' . preg_replace('/\/+/', '/', "{$this->_baseUrl}/{$alias}") . '?'
-        . http_build_query(array_merge($this->getAuthParams(), $params ?: []));
+            . http_build_query(array_merge($this->getAuthParams(), $params ?: []));
     }
 
     private function curlRequest($alias, $method = 'GET', array $params = [], array $urlParams = [])
