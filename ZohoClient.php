@@ -1,4 +1,5 @@
 <?php
+
 namespace shqear\lib;
 
 class ZohoClient
@@ -56,8 +57,15 @@ class ZohoClient
     }
 
     /**
-     * an extra function to update system settings
-     * @param string $scope select one of the scopes from constant
+     * an extra function to update system settings<br>
+     * Example : update the counter of purchase orders
+     * <pre>
+     *  $zoho->updateSettings(
+     *      ZohoClient::SCOPE_PURCHASEORDERS,
+     *      ["next_number" => 54]
+     *  );
+     * </pre>
+     * @param string $scope select one of the scopes from constant (example, ZohoClient::SCOPE_PURCHASEORDERS)
      * @param array $params
      * @return \stdClass
      */
@@ -101,7 +109,12 @@ class ZohoClient
 
     /**
      * List all items
-     * @param array $filters an extra option allows you to filter items by specific fields, leave empty to list all items
+     * @param array $filters an extra option used in zoho web application allows you to filter items by specific fields, leave empty to list all items<br>
+     * some of available filters :<br>
+     * search_text : to search about a part of text inside the item page<br>
+     * filter_by   : ItemType.Sales , Status.Unmapped , Status.Active, Status.Lowstock, ItemType.Purchases, ItemType.Inventory, ItemType.NonInventory, ItemType.Service<br>
+     * Pagenation arguments : page, per_page,sort_column(column name), sort_order(A/D)<br>
+     * ( exmple : to filter by upc field just add to the list of parameters with the value you want to filter, you may use your custom fields also )
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#list-all-item
      */
