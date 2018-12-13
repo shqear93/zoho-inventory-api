@@ -494,6 +494,54 @@ class ZohoClient
         return $this->curlRequest("/contacts/{$contact_id}/inactive", 'POST');
     }
 
+    
+    
+    /**
+     * List all the item adjustments
+     * @return \stdClass
+     * @see https://www.zoho.com/inventory/api/v1/#Item_Adjustments_Create_an_item_adjustment
+     */
+    public function ListInventoryAdjustments()
+    {
+        return $this->curlRequest("/inventoryadjustments", 'GET');
+    }
+
+
+    /**
+     * Creates a new item adjustment in Zoho Inventory.
+     * @return \stdClass
+     * @see https://www.zoho.com/inventory/api/v1/#Item_Adjustments_List_all_the_item_adjustments
+     */
+    public function CreateInventoryAdjustments($params)
+    {
+        return $this->curlRequest("/inventoryadjustments", 'POST',['JSONString' => json_encode($params)]);
+    }
+
+
+
+    /**
+     * Fetches the details for an existing item adjustment.
+     * @return \stdClass
+     * @see https://www.zoho.com/inventory/api/v1/#Item_Adjustments_Create_an_item_adjustment
+     */
+    public function RetrieveInventoryAdjustments($inventory_adjustment_id)
+    {
+        return $this->curlRequest("/inventoryadjustments/{$inventory_adjustment_id}", 'DELETE');
+    }
+
+
+
+    /**
+     * delete item adjustments
+     * @return \stdClass
+     * @see https://www.zoho.com/inventory/api/v1/#Item_Adjustments_Create_an_item_adjustment
+     */
+    public function DeleteInventoryAdjustments($inventory_adjustment_id)
+    {
+        return $this->curlRequest("/inventoryadjustments/{$inventory_adjustment_id}", 'GET');
+    }
+
+    
     //************************************** Others *********************************************
 
     /**
