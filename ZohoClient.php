@@ -50,6 +50,7 @@ class ZohoClient
     /**
      * @return \stdClass list of organization's properties
      * @see https://www.zoho.com/inventory/api/v1/#organization-id
+     * @throws \Exception
      */
     public function retrieveOrganizationsInfo()
     {
@@ -68,6 +69,7 @@ class ZohoClient
      * @param string $scope select one of the scopes from constant (example, ZohoClient::SCOPE_PURCHASEORDERS)
      * @param array $params
      * @return \stdClass
+     * @throws \Exception
      */
     public function updateSettings($scope, $params)
     {
@@ -79,6 +81,7 @@ class ZohoClient
     /**
      * @param array $params array of properties for the new item
      * @return \stdClass
+     * @throws \Exception
      * @see https://www.zoho.com/inventory/api/v1/#create-a-item
      */
     public function createItem($params)
@@ -91,6 +94,7 @@ class ZohoClient
      * @param array $params array of new properties
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#update-an-item
+     * @throws \Exception
      */
     public function updateItem($item_id, $params)
     {
@@ -101,6 +105,7 @@ class ZohoClient
      * @param string $item_id to retrieve, leave empty to list all items
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#retrieve-a-item
+     * @throws \Exception
      */
     public function retrieveItem($item_id = null)
     {
@@ -117,6 +122,7 @@ class ZohoClient
      * ( exmple : to filter by upc field just add to the list of parameters with the value you want to filter, you may use your custom fields also )
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#list-all-item
+     * @throws \Exception
      */
     public function listItems(array $filters = [])
     {
@@ -127,6 +133,7 @@ class ZohoClient
      * an extra function allows you to search items by text portion
      * @param string $search_text
      * @return \stdClass
+     * @throws \Exception
      */
     public function searchItem($search_text)
     {
@@ -138,6 +145,7 @@ class ZohoClient
      * @param string $item_id item to delete
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#delete-an-item
+     * @throws \Exception
      */
     public function deleteItem($item_id)
     {
@@ -149,6 +157,7 @@ class ZohoClient
      * @param string $item_id item to delete its image
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#delete-item-image
+     * @throws \Exception
      */
     public function deleteItemImage($item_id)
     {
@@ -160,6 +169,7 @@ class ZohoClient
      * @param string $item_id
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#mark-as-active31
+     * @throws \Exception
      */
     public function activeItem($item_id)
     {
@@ -171,6 +181,7 @@ class ZohoClient
      * @see https://www.zoho.com/inventory/api/v1/#mark-as-inactive32
      * @param string $item_id
      * @return \stdClass
+     * @throws \Exception
      */
     public function inactiveItem($item_id)
     {
@@ -184,6 +195,7 @@ class ZohoClient
      * @param array $params properties for the new item group
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#create-a-item-group
+     * @throws \Exception
      */
     public function createItemGroup(array $params)
     {
@@ -196,6 +208,7 @@ class ZohoClient
      * @param array $params new properties for the selected item group
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#update-an-item-group
+     * @throws \Exception
      */
     public function updateItemGroup($itemgroup_id, array $params)
     {
@@ -207,6 +220,7 @@ class ZohoClient
      * @param string $group_id to retrieve, leave empty to retrieve all item groups
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#retrieve-a-item-group
+     * @throws \Exception
      */
     public function retrieveItemGroup($group_id = null)
     {
@@ -217,6 +231,7 @@ class ZohoClient
      * List all Item Group
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#list-all-item-group
+     * @throws \Exception
      */
     public function listItemGroups()
     {
@@ -228,6 +243,7 @@ class ZohoClient
      * @param string $group_id to be deleted
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#delete-an-item-group
+     * @throws \Exception
      */
     public function deleteItemGroup($group_id)
     {
@@ -239,6 +255,7 @@ class ZohoClient
      * @param string $group_id to be activated
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#mark-as-active22
+     * @throws \Exception
      */
     public function activeItemGroup($group_id)
     {
@@ -250,6 +267,7 @@ class ZohoClient
      * @param string $group_id to be disabled
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#mark-as-inactive23
+     * @throws \Exception
      */
     public function inactiveItemGroup($group_id)
     {
@@ -264,6 +282,7 @@ class ZohoClient
      * @param bool $ignore ignore auto number generation, if true you must specify the new id, default is false
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#create-a-purchase-order
+     * @throws \Exception
      */
     public function createPurchaseOrder(array $params, $ignore = false)
     {
@@ -280,6 +299,7 @@ class ZohoClient
      * @param bool $ignore ignore auto number generation, if true you must specify the new id, default is false
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#update-an-purchase-order
+     * @throws \Exception
      */
     public function updatePurchaseOrder($purchaseorder_id, array $params, $ignore = false)
     {
@@ -294,6 +314,7 @@ class ZohoClient
      * @param string $purchaseorder_id to retrieve, leave empty to list all purchase orders
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#retrieve-a-purchase-order
+     * @throws \Exception
      */
     public function retrievePurchaseOrder($purchaseorder_id = null)
     {
@@ -304,6 +325,7 @@ class ZohoClient
      * List all purchase order
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#retrieve-a-purchase-order
+     * @throws \Exception
      */
     public function listPurchaseOrders()
     {
@@ -315,6 +337,7 @@ class ZohoClient
      * @param string $purchaseorder_id to be deleted
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#delete-an-purchase-order
+     * @throws \Exception
      */
     public function deletePurchaseOrder($purchaseorder_id)
     {
@@ -327,6 +350,7 @@ class ZohoClient
      * @param string $purchaseorder_id
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#mark-as-issued
+     * @throws \Exception
      */
     public function issuePurchaseOrder($purchaseorder_id)
     {
@@ -338,6 +362,7 @@ class ZohoClient
      * @param string $purchaseorder_id
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#mark-as-cancelled
+     * @throws \Exception
      */
     public function cancelPurchaseOrder($purchaseorder_id)
     {
@@ -352,6 +377,7 @@ class ZohoClient
      * @param bool $ignore ignore auto number generation, if true you must specify the new id, default is false
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#create-a-sales-order
+     * @throws \Exception
      */
     public function createSalesOrder(array $params = [], $ignore = false)
     {
@@ -368,6 +394,7 @@ class ZohoClient
      * @param bool $ignore ignore auto number generation, if true you must specify the new id, default is false
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#update-an-sales-order
+     * @throws \Exception
      */
     public function updateSalesOrder($salesorder_id, array $params, $ignore = false)
     {
@@ -382,6 +409,7 @@ class ZohoClient
      * @param string $salesorder_id to retrieve, leave empty to list all purchase orders
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#retrieve-a-sales-order
+     * @throws \Exception
      */
     public function retrieveSalesOrder($salesorder_id = null)
     {
@@ -392,6 +420,7 @@ class ZohoClient
      * List all sales order
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#list-all-sales-order
+     * @throws \Exception
      */
     public function listSalesOrders()
     {
@@ -403,6 +432,7 @@ class ZohoClient
      * @param string $salesorder_id to be deleted
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#delete-an-sales-order
+     * @throws \Exception
      */
     public function deleteSalesOrder($salesorder_id)
     {
@@ -414,6 +444,7 @@ class ZohoClient
      * @param string $salesorder_id
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#mark-as-void68
+     * @throws \Exception
      */
     public function voidSalesOrder($salesorder_id)
     {
@@ -426,6 +457,7 @@ class ZohoClient
      * @param array $params
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#create-a-contact
+     * @throws \Exception
      */
     public function createContact(array $params = [])
     {
@@ -437,6 +469,7 @@ class ZohoClient
      * @param array $params
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#update-an-contact
+     * @throws \Exception
      */
     public function updateContact($contact_id, array $params = [])
     {
@@ -448,6 +481,7 @@ class ZohoClient
      * @param array $filters filters array, use constants STATUS_.. to filter by contact type
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#retrieve-a-contact
+     * @throws \Exception
      */
     public function retrieveContact($contact_id = null, array $filters = [])
     {
@@ -458,6 +492,7 @@ class ZohoClient
      * @param array $filters filters array, use constants STATUS_.. to filter by contact type
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#list-all-contact
+     * @throws \Exception
      */
     public function listContacts(array $filters = [])
     {
@@ -468,6 +503,7 @@ class ZohoClient
      * @param string $contact_id contact id to delete
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#delete-an-contact
+     * @throws \Exception
      */
     public function deleteContact($contact_id)
     {
@@ -478,6 +514,7 @@ class ZohoClient
      * @param string $contact_id contact id to active
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#mark-as-active
+     * @throws \Exception
      */
     public function activeContact($contact_id)
     {
@@ -488,62 +525,62 @@ class ZohoClient
      * @param string $contact_id contact id to inactive
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#mark-as-inactive
+     * @throws \Exception
      */
     public function inactiveContact($contact_id)
     {
         return $this->curlRequest("/contacts/{$contact_id}/inactive", 'POST');
     }
 
-    
-    
     /**
      * List all the item adjustments
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#Item_Adjustments_Create_an_item_adjustment
+     * @throws \Exception
      */
-    public function ListInventoryAdjustments()
+    public function listInventoryAdjustments()
     {
         return $this->curlRequest("/inventoryadjustments", 'GET');
     }
 
-
     /**
      * Creates a new item adjustment in Zoho Inventory.
+     * @param $params
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#Item_Adjustments_List_all_the_item_adjustments
+     * @throws \Exception
      */
-    public function CreateInventoryAdjustments($params)
+    public function createInventoryAdjustments($params)
     {
-        return $this->curlRequest("/inventoryadjustments", 'POST',['JSONString' => json_encode($params)]);
+        return $this->curlRequest("/inventoryadjustments", 'POST', ['JSONString' => json_encode($params)]);
     }
-
 
 
     /**
      * Fetches the details for an existing item adjustment.
+     * @param $inventory_adjustment_id
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#Item_Adjustments_Create_an_item_adjustment
+     * @throws \Exception
      */
-    public function RetrieveInventoryAdjustments($inventory_adjustment_id)
+    public function retrieveInventoryAdjustments($inventory_adjustment_id)
     {
         return $this->curlRequest("/inventoryadjustments/{$inventory_adjustment_id}", 'GET');
     }
 
 
-
     /**
      * delete item adjustments
+     * @param $inventory_adjustment_id
      * @return \stdClass
      * @see https://www.zoho.com/inventory/api/v1/#Item_Adjustments_Create_an_item_adjustment
+     * @throws \Exception
      */
-    public function DeleteInventoryAdjustments($inventory_adjustment_id)
+    public function deleteInventoryAdjustments($inventory_adjustment_id)
     {
         return $this->curlRequest("/inventoryadjustments/{$inventory_adjustment_id}", 'DELETE');
     }
 
-
-
-    
     //************************************** Others *********************************************
 
     /**
@@ -563,6 +600,14 @@ class ZohoClient
             . http_build_query(array_merge($this->getAuthParams(), $params ?: []));
     }
 
+    /**
+     * @param $alias
+     * @param string $method
+     * @param array $params
+     * @param array $urlParams
+     * @return bool|mixed|string
+     * @throws \Exception
+     */
     private function curlRequest($alias, $method = 'GET', array $params = [], array $urlParams = [])
     {
         $this->_curlObject = $this->initializeCurlObject();
@@ -587,6 +632,10 @@ class ZohoClient
         return $this->_curlObject;
     }
 
+    /**
+     * @return bool|mixed|string
+     * @throws \Exception
+     */
     private function execute()
     {
         $return = curl_exec($this->_curlObject);
