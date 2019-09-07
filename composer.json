@@ -18,7 +18,6 @@
       "homepage": "https://fb.com/shazahanul"
     }
   ],
-  "minimum-stability": "dev",
   "require": {
     "php": ">=5.6"
   },
