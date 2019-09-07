@@ -1,8 +1,8 @@
 <?php
 
-namespace shqear\lib;
+namespace shohag\ZohoInventorySDK;
 
-class ZohoClient
+class ZohoInventory
 {
     public $organizationId;
     public $accessToken;
@@ -450,6 +450,63 @@ class ZohoClient
     {
         return $this->curlRequest("/salesorders/{$salesorder_id}/status/void", 'POST');
     }
+
+    //************************************** Invoices *********************************************
+
+    /**
+     * create invoice
+     * @param array $params
+     * @param bool $ignore
+     * @return bool|mixed|string
+     * @throws \Exception
+     */
+    public function createInvoice(array $params = [], $ignore = false)
+    {
+        return $this->curlRequest('/invoices', 'POST',
+            ['JSONString' => json_encode($params)],
+            ['ignore_auto_number_generation' => $ignore ? 'true' : 'false']
+        );
+    }
+
+    /**
+     * update Invoice
+     * @param $invoice_id
+     * @param array $params
+     * @param bool $ignore
+     * @return bool|mixed|string
+     * @throws \Exception
+     */
+    public function updateInvoice($invoice_id, array $params, $ignore = false)
+    {
+        return $this->curlRequest("/invoices/{$invoice_id}", 'PUT',
+            ['JSONString' => json_encode($params)],
+            ['ignore_auto_number_generation' => $ignore ? 'true' : 'false']
+        );
+    }
+
+    /**
+     * retrive a single invoice
+     * @param null $invoice_id
+     * @return bool|mixed|string
+     * @throws \Exception
+     */
+    public function retrieveInvoice($invoice_id = null)
+    {
+        return $this->curlRequest("/invoices/{$invoice_id}");
+    }
+
+    /**
+     * list all Invoice
+     * @return bool|mixed|string
+     * @throws \Exception
+     */
+    public function listInvoices()
+    {
+        return $this->retrieveInvoice();
+    }
+
+// TODO: Implement other methods for Invoice
+
 
     //************************************** Contacts *********************************************
 
