@@ -153,6 +153,24 @@ class ZohoClient
     }
 
     /**
+     * Add a new item image
+     * @param string $item_id item to add the image to
+     * @param string $image_path full local file path of image to add
+     * @param string|null $type MIME type of image file to add
+     * @return \stdClass
+     * @see https://help.zoho.com/portal/community/topic/how-can-i-import-product-images-into-inventory
+     * @see https://help.zoho.com/portal/community/topic/how-to-add-image-to-item-with-api
+     * @throws \Exception
+     */
+    public function addItemImage($item_id, $image_path, $type = 'image/jpeg')
+    {
+        $params = [
+            'image' => new \CURLFile($image_path, $type),
+        ];
+        return $this->curlRequest("/items/{$item_id}/image", 'POST', $params);
+    }
+
+    /**
      * Delete an existing item image
      * @param string $item_id item to delete its image
      * @return \stdClass
