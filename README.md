@@ -27,9 +27,9 @@ Usage
 
 ```
 require_once 'vendor/autoload.php';
-use shohag\ZohoInventorySDK\ZohoClient;
+use shohag\ZohoInventorySDK\ZohoInventory;
 
-$inventory = new ZohoInventory(array('accessToken' => 'your access token'), 'organizationId' => 'your org id'));
+$inventory = new ZohoInventory(array('accessToken' => 'your auth token'), 'organizationId' => 'your org id'));
 
 $inventory->listContacts(); //get all contacts
 
