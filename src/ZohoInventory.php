@@ -505,7 +505,49 @@ class ZohoInventory
         return $this->retrieveInvoice();
     }
 
-// TODO: Implement other methods for Invoice
+    // TODO: Implement other methods for Invoice
+
+    //************************************** Tax *********************************************
+
+    public function createTax($params)
+    {
+        return $this->curlRequest('/taxes', 'POST', ['JSONString' => json_encode($params)]);
+    }
+
+    public function updateTax($tax_id, $params)
+    {
+        return $this->curlRequest("/taxes/{$tax_id}", 'PUT', ['JSONString' => json_encode($params)]);
+    }
+
+    public function retrieveTax($tax_id = null)
+    {
+        return $this->curlRequest("/taxes/{$tax_id}");
+    }
+
+    /**
+     * List all items
+     * @param array $filters an extra option used in zoho web application allows you to filter items by specific fields, leave empty to list all items<br>
+     * some of available filters :<br>
+     * search_text : to search about a part of text inside the item page<br>
+     * filter_by   : ItemType.Sales , Status.Unmapped , Status.Active, Status.Lowstock, ItemType.Purchases, ItemType.Inventory, ItemType.NonInventory, ItemType.Service<br>
+     * Pagenation arguments : page, per_page,sort_column(column name), sort_order(A/D)<br>
+     * ( exmple : to filter by upc field just add to the list of parameters with the value you want to filter, you may use your custom fields also )
+     * @return \stdClass
+     * @see https://www.zoho.com/inventory/api/v1/#list-all-item
+     * @throws \Exception
+     */
+    public function listTaxes(array $filters = [])
+    {
+        return $this->curlRequest("/taxes/", 'GET', $filters);
+    }
+
+
+    public function searchTaxes($search_text)
+    {
+        return $this->listTaxes(['search_text' => $search_text]);
+    }
+
+    // TODO: implement other methods for Taxes
 
 
     //************************************** Contacts *********************************************
