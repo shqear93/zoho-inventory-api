@@ -511,17 +511,17 @@ class ZohoInventory
 
     public function createTax($params)
     {
-        return $this->curlRequest('/taxes', 'POST', ['JSONString' => json_encode($params)]);
+        return $this->curlRequest('/settings/taxes', 'POST', ['JSONString' => json_encode($params)]);
     }
 
     public function updateTax($tax_id, $params)
     {
-        return $this->curlRequest("/taxes/{$tax_id}", 'PUT', ['JSONString' => json_encode($params)]);
+        return $this->curlRequest("/settings/taxes/{$tax_id}", 'PUT', ['JSONString' => json_encode($params)]);
     }
 
     public function retrieveTax($tax_id = null)
     {
-        return $this->curlRequest("/taxes/{$tax_id}");
+        return $this->curlRequest("/settings/taxes/{$tax_id}");
     }
 
     /**
@@ -538,7 +538,7 @@ class ZohoInventory
      */
     public function listTaxes(array $filters = [])
     {
-        return $this->curlRequest("/taxes/", 'GET', $filters);
+        return $this->curlRequest("/settings/taxes/", 'GET', $filters);
     }
 
 
