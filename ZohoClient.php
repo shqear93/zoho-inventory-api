@@ -1,8 +1,8 @@
 <?php
 
-namespace shohag\ZohoInventorySDK;
+namespace shqear\lib;
 
-class ZohoInventory
+class ZohoClient
 {
     public $organizationId;
     public $accessToken;

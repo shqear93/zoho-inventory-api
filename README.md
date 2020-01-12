@@ -10,13 +10,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-composer require shohag/zoho-inventory-sdk
+php composer.phar require --prefer-dist shqear/zoho-inventory-api "*"
 ```
 
 or add
 
 ```
-"shohag/zoho-inventory-sdk": "*"
+"shqear/zoho-inventory-api": "*"
 ```
 
 to the require section of your `composer.json` file.
@@ -27,11 +27,9 @@ Usage
 
 ```
 require_once 'vendor/autoload.php';
-use shohag\ZohoInventorySDK\ZohoInventory;
+use shqear\lib\ZohoClient;
 
 $inventory = new ZohoInventory(array('accessToken' => 'your auth token'), 'organizationId' => 'your org id'));
 
-$inventory->listContacts(); //get all contacts
-
-die(var_dump($inventory));
+$inventory->listContacts(); // Get all contacts
 ```
