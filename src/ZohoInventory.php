@@ -1,8 +1,8 @@
 <?php
 
-namespace shqear\lib;
+namespace shohag\ZohoInventorySDK;
 
-class ZohoClient
+class ZohoInventory
 {
     public $organizationId;
     public $accessToken;
@@ -468,6 +468,105 @@ class ZohoClient
     {
         return $this->curlRequest("/salesorders/{$salesorder_id}/status/void", 'POST');
     }
+
+    //************************************** Invoices *********************************************
+
+    /**
+     * create invoice
+     * @param array $params
+     * @param bool $ignore
+     * @return bool|mixed|string
+     * @throws \Exception
+     */
+    public function createInvoice(array $params = [], $ignore = false)
+    {
+        return $this->curlRequest('/invoices', 'POST',
+            ['JSONString' => json_encode($params)],
+            ['ignore_auto_number_generation' => $ignore ? 'true' : 'false']
+        );
+    }
+
+    /**
+     * update Invoice
+     * @param $invoice_id
+     * @param array $params
+     * @param bool $ignore
+     * @return bool|mixed|string
+     * @throws \Exception
+     */
+    public function updateInvoice($invoice_id, array $params, $ignore = false)
+    {
+        return $this->curlRequest("/invoices/{$invoice_id}", 'PUT',
+            ['JSONString' => json_encode($params)],
+            ['ignore_auto_number_generation' => $ignore ? 'true' : 'false']
+        );
+    }
+
+    /**
+     * retrive a single invoice
+     * @param null $invoice_id
+     * @return bool|mixed|string
+     * @throws \Exception
+     */
+    public function retrieveInvoice($invoice_id = null)
+    {
+        return $this->curlRequest("/invoices/{$invoice_id}");
+    }
+
+    /**
+     * list all Invoice
+     * @return bool|mixed|string
+     * @throws \Exception
+     */
+    public function listInvoices()
+    {
+        return $this->retrieveInvoice();
+    }
+
+    // TODO: Implement other methods for Invoice
+
+    //************************************** Tax *********************************************
+
+    public function createTax($params)
+    {
+        return $this->curlRequest('/settings/taxes', 'POST', ['JSONString' => json_encode($params)]);
+    }
+
+    public function updateTax($tax_id, $params)
+    {
+        return $this->curlRequest("/settings/taxes/{$tax_id}", 'PUT', ['JSONString' => json_encode($params)]);
+    }
+
+    public function retrieveTax($tax_id = null)
+    {
+        return $this->curlRequest("/settings/taxes/{$tax_id}");
+    }
+
+    /**
+     * List all items
+     * @param array $filters an extra option used in zoho web application allows you to filter items by specific fields, leave empty to list all items<br>
+     * some of available filters :<br>
+     * search_text : to search about a part of text inside the item page<br>
+     * filter_by   : ItemType.Sales , Status.Unmapped , Status.Active, Status.Lowstock, ItemType.Purchases, ItemType.Inventory, ItemType.NonInventory, ItemType.Service<br>
+     * Pagenation arguments : page, per_page,sort_column(column name), sort_order(A/D)<br>
+     * ( exmple : to filter by upc field just add to the list of parameters with the value you want to filter, you may use your custom fields also )
+     * @return \stdClass
+     * @see https://www.zoho.com/inventory/api/v1/#list-all-item
+     * @throws \Exception
+     */
+    public function listTaxes(array $filters = [])
+    {
+        return $this->curlRequest("/settings/taxes/", 'GET', $filters);
+    }
+
+
+    public function searchTaxes($search_text)
+    {
+        return $this->listTaxes(['search_text' => $search_text]);
+    }
+
+    // TODO: implement other methods for Taxes
+
 
     //************************************** Contacts *********************************************
 
