@@ -25,7 +25,7 @@ to the require section of your `composer.json` file.
 Usage
 -----
 
-```
+```php
 require_once 'vendor/autoload.php';
 use shqear\lib\ZohoClient;
 
